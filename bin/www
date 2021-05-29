@@ -8,6 +8,7 @@ const app = require("../app");
 const debug = require("debug")("log-dashboard:server");
 const http = require("http");
 const WebSocket = require("ws");
+const fs = require("fs");
 
 /**
  * Get port from environment and store in Express.
@@ -31,8 +32,16 @@ server.listen(port);
 server.on("error", onError);
 server.on("listening", onListening);
 wss.on("connection",(ws) => {
-  ws.on("message", (message) => {
-    ws.send("Hello from the server! You sent: " + message);
+  ws.on("message", (filePath) => {
+    fs.watch(filePath, () => {
+      fs.createReadStream(filePath);
+      readStream.on('data', function (chunk) {
+        let stringChunk = chunk.toString('utf8');
+        let logsArr = stringChunk.split("\n");
+        let logsStr = logsArr.reverse().join("\n");
+        ws.send(logsStr);
+      });
+    });
   });
 });
 
