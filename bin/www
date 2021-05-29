@@ -34,12 +34,10 @@ server.on("listening", onListening);
 wss.on("connection",(ws) => {
   ws.on("message", (filePath) => {
     fs.watch(filePath, () => {
-      fs.createReadStream(filePath);
-      readStream.on("data", function (chunk) {
-        let stringChunk = chunk.toString('utf8');
-        let logsArr = stringChunk.split("\n");
-        let logsStr = logsArr.reverse().join("\n");
-        ws.send(logsStr);
+      fs.createReadStream(filePath).on("data", chunk => {
+        let logsArr = chunk.toString().split("\n")
+        let logsStr = logsArr.reverse().join("\n")
+        ws.send(logsStr)
       });
     });
   });
