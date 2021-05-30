@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const fileService = require("../services/select-file-service")
-const { getSettings, writeSettings, isValidDir } = require("../services/settings-service.js");
+const { getDefaultDir, getSettings, writeSettings, isValidDir } = require("../services/settings-service.js");
 const { validationResult } = require("express-validator");
 const { body } = require("express-validator");
 
