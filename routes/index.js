@@ -12,11 +12,12 @@ router.get("/", (req, res, next) => {
 
 /* GET select file. */
 router.get("/select-file", (req, res, next) => {
+  fileService.setcwd(getDefaultDir());
   res.render("select-file", { title: "Select Log File" });
 });
 
 /* GET settings. */
-router.get("/settings", (req, res, next) => {
+router.get("/settings", (req, res, next) =>  {
   res.render("settings", { title: "Settings", settings: getSettings() });
 });
 
